@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Masongo Umar 1800738510 2018/HD05/1967U</title>
+    
+    <link rel="stylesheet" href="./assets/css/main/app.css">
+    <link rel="stylesheet" href="./assets/css/main/app-dark.css">
+    <link rel="shortcut icon" href="./assets/images/logo/favicon.svg" type="image/x-icon">
+    <link rel="shortcut icon" href="./assets/images/logo/favicon.png" type="image/png">
+    
+    <link rel="stylesheet" href="./assets/css/shared/iconly.css">
+    <link rel="stylesheet" href="./assets/css/pages/style.css">
+</head>
+
+<body>
+    <div id="app">
+        <div id="sidebar" class="active">
+            <div class="sidebar-wrapper active">                
+                <div class="sidebar-menu">
+                    <ul class="menu">
+                        <!-- <li class="sidebar-title">Menu</li> -->
+                        
+                        <li
+                            class="sidebar-item active">
+                            <a href="index.html" class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        
+                        <li
+                            class="sidebar-item">
+                            <a href="heatmap.html" class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>heatmap</span>
+                            </a>
+                        </li>
+                        
+                        <li
+                            class="sidebar-item">
+                            <a href="barchart.html" class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>barchart</span>
+                            </a>
+                        </li>
+                        
+                        <li
+                            class="sidebar-item">
+                            <a href="piechart.html" class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>piechart</span>
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+            
+            <div class="page-heading">
+                <h3>Visual Statistics</h3>
+            </div>
+            <div class="page-content">
+                <section class="row">
+                  <div class="row">
+                      <div class="col-12">
+                          <div class="card">
+                              <div class="card-header">
+                                  <h4>Geospatial visualization</h4>
+                              </div>
+                              <div class="card-body">
+                                  <div id="map"><!-- Map container --></div>
+                                  <div id="legend"><!-- Legend container --></div>
+                                  <!-- <div id="chart"> Table container</div> -->
+                                  <!-- Tooltip div -->
+                                  <div id="tooltip">
+                                    <p class="name"></p>
+                                  </div> <!-- end of tooltip div -->
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/app.js" /></script>    
+    <script src="assets/js/pages/dashboard.js" /></script>
+    <!-- <script src="./assets/js/d3.min.js" /></script> -->
+
+
+    <!-- JS libraries -->
+    <script src="assets/js/d3.v3.min.js"></script>
+    <script src="./assets/data/color-scale.js"></script>
+
+    <!-- Custom JS code -->
+    <script src="assets/js/map.js"></script>
+    <script src="assets/js/legend.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Masongo Umar 1800738510 2018/HD05/1967U</title>
+    
+    <link rel="stylesheet" href="./assets/css/main/app.css">
+    <link rel="stylesheet" href="./assets/css/main/app-dark.css">
+    <link rel="shortcut icon" href="./assets/images/logo/favicon.svg" type="image/x-icon">
+    <link rel="shortcut icon" href="./assets/images/logo/favicon.png" type="image/png">
+    
+    <link rel="stylesheet" href="./assets/css/shared/iconly.css">
+    <link rel="stylesheet" href="./assets/css/pages/style.css">
+    <style>
+        .bar {
+            fill: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div id="sidebar" class="active">
+            <div class="sidebar-wrapper active">                
+                <div class="sidebar-menu">
+                    <ul class="menu">
+                        <!-- <li class="sidebar-title">Menu</li> -->
+                        
+                        <li
+                            class="sidebar-item active">
+                            <a href="index.html" class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        
+                        <li
+                            class="sidebar-item">
+                            <a href="heatmap.html" class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>heatmap</span>
+                            </a>
+                        </li>
+                        
+                        <li
+                            class="sidebar-item">
+                            <a href="barchart.html" class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>barchart</span>
+                            </a>
+                        </li>
+                        
+                        <li
+                            class="sidebar-item">
+                            <a href="piechart.html" class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>piechart</span>
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+            
+            <div class="page-heading">
+                <h3>Visual Statistics</h3>
+            </div>
+            <div class="page-content">
+                <section class="row">
+                  
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-header">
+                            <h4>Bar chat</h4>
+                        </div>
+                        <div class="card-body">
+                          <div><svg width="1000" height="600"></svg></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <script src="./assets/js/app.js" /></script>    
+    <script src="./assets/js/pages/dashboard.js" /></script>
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script>
+
+        var svg = d3.select("svg"),
+            margin = 250,
+            width = svg.attr("width") - margin,
+            height = svg.attr("height") - margin
+
+        svg.append("text")
+           .attr("transform", "translate(100,0)")
+           .attr("x", 50)
+           .attr("y", 50)
+           .attr("font-size", "24px")
+           .text("General performance")
+
+        var xScale = d3.scaleBand().range([0, width]).padding(0.4),
+            yScale = d3.scaleLinear().range([height, 0]);
+
+        var g = svg.append("g")
+                   .attr("transform", "translate(" + 100 + "," + 100 + ")");
+
+        d3.csv("./assets/data/data-excel-prepared.csv", function(error, data) {
+            if (error) {
+                throw error;
+            }
+
+            xScale.domain(data.map(function(d) { return d.candidate; }));
+            yScale.domain([0, d3.max(data, function(d) { return d.candidate_votes_percent; })]);
+
+            g.append("g")
+             .attr("transform", "translate(0," + height + ")")
+             .call(d3.axisBottom(xScale))
+             .selectAll("text")  
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", "rotate(-65)" )
+             .append("text")
+             .attr("y", height - 250)
+             .attr("x", width - 100)
+             .attr("text-anchor", "end")
+             .attr("stroke", "black")
+             .text("Candidates");
+
+            g.append("g")
+             .call(d3.axisLeft(yScale).tickFormat(function(d){
+                 return d;
+             })
+             .ticks(10))
+             .append("text")
+             .attr("transform", "rotate(-90)")
+             .attr("y", 6)
+             .attr("dy", "-5.1em")
+             .attr("text-anchor", "end")
+             .attr("stroke", "black")
+             .text("Percentage");
+
+            g.selectAll(".bar")
+             .data(data)
+             .enter().append("rect")
+             .attr("class", "bar")
+             .attr("x", function(d) { return xScale(d.candidate); })
+             .attr("y", function(d) { return yScale(d.candidate_votes_percent); })
+             .attr("width", xScale.bandwidth())
+             .attr("height", function(d) { return height - yScale(d.candidate_votes_percent); });
+        });
+    </script>
+
+</body>
+</html>

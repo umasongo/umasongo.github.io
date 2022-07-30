@@ -13,6 +13,21 @@
     
     <link rel="stylesheet" href="./assets/css/shared/iconly.css">
     <link rel="stylesheet" href="./assets/css/pages/style.css">
+    <style>
+        .arc text {
+            font: 10px sans-serif;
+            text-anchor: middle;
+        }
+
+        .arc path {
+            stroke: #fff;
+        }
+
+        .title {
+            fill: teal;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
@@ -77,9 +92,13 @@
                       <div class="card">
                         <div class="card-header">
                             <h4>Pie chat</h4>
+                            <p>Candidates performance - kampala</p>
                         </div>
                         <div class="card-body">
-                          <div id="my_dataviz"></div>
+                            <div class="row">
+                                <div class="col-md-8"><svg id="pie" width="600" height="600"></svg></div>
+                                <div class="col-md-4"><svg id="legend" height=600 width=600></svg></div>
+                            </div>
                         </div>
                       </div>
                     </div>
@@ -91,5 +110,94 @@
     <script src="./assets/js/app.js" /></script>    
     <script src="./assets/js/pages/dashboard.js" /></script>
 
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script>
+
+        var svg = d3.select("#pie"),
+            width = svg.attr("width"),
+            height = svg.attr("height"),
+            radius = Math.min(width, height) / 2;
+        
+        var g = svg.append("g")
+                   .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+        var color = d3.scaleOrdinal([ '#1114d1','#d482ed','#42f5f5','#727520', '#d10a0a','#04bd0a','#507520','#7b119c', '#204675','#170b29','#ebd807','#cccccc' ]);
+
+        var pie = d3.pie().value(function(d) { 
+                return d.candidate_votes_percent; 
+            });
+
+        var path = d3.arc()
+                     .outerRadius(radius - 10)
+                     .innerRadius(0);
+
+        var label = d3.arc()
+                      .outerRadius(radius)
+                      .innerRadius(radius - 80);
+
+        d3.csv("./assets/data/data-excel-prepared.csv", function(error, data) {
+            if (error) {
+                throw error;
+            }
+
+            data = data.filter(function(d){ return d.district == "KAMPALA" })
+
+            var arc = g.selectAll(".arc")
+                       .data(pie(data))
+                       .enter().append("g")
+                       .attr("class", "arc");
+
+            arc.append("path")
+               .attr("d", path)
+               .attr("fill", function(d) { return color(d.data.candidate); });
+        
+            console.log(arc)
+        
+            arc.append("text")
+               .attr("transform", function(d) { 
+                        return "translate(" + label.centroid(d) + ")"; 
+                })
+               .text(function(d) { return d.data.candidate_votes_percent; });
+            });
+
+            // svg.append("g")
+            //    .attr("transform", "translate(" + (width / 2 - 120) + "," + 20 + ")")
+            //    .append("text")
+            //    .text("Candidates performance - kampala")
+            //    .attr("class", "title")
+    
+
+        // select the svg area
+        var SVG = d3.select("#legend")
+        
+        // create a list of keys
+        var keys = ["AMURIAT OBOI PATRICK", "KABULETA KIIZA JOSEPH", "KALEMBE NANCY LINDA", "KATUMBA JOHN", "KYAGULANYI SSENTAMU ROBERT", "MAO NORBERT",
+        "MAYAMBALA WILLY", "MUGISHA MUNTU GREGG", "MWESIGYE FRED", "TUMUKUNDE HENRY KAKURUGU", "YOWERI MUSEVENI TIBUHABURWA KAGUTA", "INVALID VOTES"]
+        
+        // Add one dot in the legend for each name.
+        var size = 30
+        SVG.selectAll("mydots")
+          .data(keys)
+          .enter()
+          .append("rect")
+            .attr("x", 100)
+            .attr("y", function(d, i){ return 100 + i*(size+5)}) // 100 is where the first dot appears. 25 is the distance between dots
+            .attr("width", size)
+            .attr("height", size)
+            .style("fill", function(d){ return color(d)})
+        
+        // Add one dot in the legend for each name.
+        SVG.selectAll("mylabels")
+          .data(keys)
+          .enter()
+          .append("text")
+            .attr("x", 100 + size*1.2)
+            .attr("y", function(d, i){ return 100 + i*(size+5) + (size/2)}) // 100 is where the first dot appears. 25 is the distance between dots
+            // .style("fill", function(d){ return color(d)})
+            .text(function(d){ return d})
+            .attr("text-anchor", "left")
+            .style("alignment-baseline", "middle")
+
+        </script>
 </body>
 </html>

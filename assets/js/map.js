@@ -41,7 +41,7 @@ var hoveron = function(d) {
       .text("Registered voters: " + valueFormat(d.properties.dataRowKey.reg_voters)); 
 
       d3.select("#tooltip .total_votes")
-        .text("Voter turnout: " + valueFormat(d.properties.dataRowKey.total_votes) +"/"+ valueFormat(d.properties.dataRowKey.total_votes_percent) +"%"); 
+        .text("Voter turnout: " + valueFormat(d.properties.dataRowKey.total_votes) +" ("+ valueFormat(d.properties.dataRowKey.total_votes_percent) +"%)"); 
 }
 
 var hoverout = function(d) {

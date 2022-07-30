@@ -97,21 +97,24 @@ var dataById = d3.map();
 //Colors by Cynthia Brewer (colorbrewer2.org), 9-class YlGnBu
 
 
-var color = d3.scale.quantize()
-          //.range(d3.range(9),map(function(i) { return 'q' + i + '-9';}));
-        .range([ '#1114d1','#d482ed','#42f5f5','#727520', '#d10a0a','#04bd0a','#507520','#7b119c', '#204675','#170b29','#ebd807','#000000' ]);
+//var color = d3.scale.quantize()
+    //.range(d3.range(9),map(function(i) { return 'q' + i + '-9';}));
+    //.range([ '#1114d1','#d482ed','#42f5f5','#727520', '#d10a0a','#04bd0a','#507520','#7b119c', '#204675','#170b29','#ebd807','#000000' ]);
 
+  var color = d3.scale.linear()
+    .range(["#fcf1e1", "#fc8903"])
+    .interpolate(d3.interpolateHcl);
 
 // Load in coverage score data
 d3.csv("./assets/data/data-excel-turnout.csv", function(data) {
 
   //Set input domain for color scale
-  // color.domain([
-  //   d3.min(data, function(d) { return +d[currentKey]; }),
-  //   d3.max(data, function(d) { return +d[currentKey]; })
-  //   ]);
+  color.domain([
+    d3.min(data, function(d) { return d.total_votes_percent; }),
+    d3.max(data, function(d) { return d.total_votes_percent; })
+    ]);
 
-  color.domain(d3.range(0, 100, 1));
+  //color.domain(d3.range(0, 100, 1));
 
   // This maps the data of the CSV so it can be easily accessed by
   // the ID of the district, for example: dataById[2196]

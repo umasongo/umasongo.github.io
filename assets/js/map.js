@@ -41,7 +41,7 @@ var hoveron = function(d) {
       .text("Registered voters: " + valueFormat(d.properties.dataRowKey.reg_voters)); 
 
       d3.select("#tooltip .total_votes")
-        .text("Voter turnout: " + valueFormat(d.properties.dataRowKey.total_votes) +" ("+ valueFormat(d.properties.dataRowKey.total_votes_percent) +"%)"); 
+        .text("Voter turnout: " + valueFormat(d.properties.dataRowKey.total_votes) +" ("+ d.properties.dataRowKey.total_votes_percent +"%)"); 
 }
 
 var hoverout = function(d) {
@@ -49,7 +49,7 @@ var hoverout = function(d) {
   //Restore original choropleth fill
   d3.select(this)
     .style("fill", function(d) {
-      var value = d.properties.currentKey;
+      var value = d.properties.dataRowKey.total_votes_percent;
       if (value) {
         return color(value);
       } else {
@@ -106,10 +106,12 @@ var color = d3.scale.quantize()
 d3.csv("./assets/data/data-excel-turnout.csv", function(data) {
 
   //Set input domain for color scale
-  color.domain([
-    d3.min(data, function(d) { return +d[currentKey]; }),
-    d3.max(data, function(d) { return +d[currentKey]; })
-    ]);
+  // color.domain([
+  //   d3.min(data, function(d) { return +d[currentKey]; }),
+  //   d3.max(data, function(d) { return +d[currentKey]; })
+  //   ]);
+
+  color.domain(d3.range(0, 100, 1));
 
   // This maps the data of the CSV so it can be easily accessed by
   // the ID of the district, for example: dataById[2196]
@@ -174,7 +176,7 @@ d3.csv("./assets/data/data-excel-turnout.csv", function(data) {
        
           // Get data value
           
-          var value = d.properties.currentKey;
+          var value = d.properties.dataRowKey.total_votes_percent;
 
 /*          console.log(value);*/
 

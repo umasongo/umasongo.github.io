@@ -27,7 +27,7 @@
                             class="sidebar-item active">
                             <a href="index.html" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
-                                <span>Dashboard</span>
+                                <span>Geospartial map</span>
                             </a>
                         </li>
                         
@@ -76,14 +76,18 @@
                           <div class="card">
                               <div class="card-header">
                                   <h4>Geospatial visualization</h4>
+                                  <p>Showing voter turn out per district</p>
                               </div>
                               <div class="card-body">
                                   <div id="map"><!-- Map container --></div>
-                                  <div id="legend"><!-- Legend container --></div>
+                                  <!-- <div id="legend">Legend container</div> -->
                                   <!-- <div id="chart"> Table container</div> -->
                                   <!-- Tooltip div -->
                                   <div id="tooltip">
-                                    <p class="name"></p>
+                                    <h1 class="name"></h1>
+                                    <p class="received_station"></p>
+                                    <p class="reg_voters"></p>
+                                    <p class="total_votes"></p>
                                   </div> <!-- end of tooltip div -->
                               </div>
                           </div>

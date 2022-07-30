@@ -15,7 +15,7 @@ var valueFormat = d3.format(",");
 
 // Logic to handle hover event when its firedup
 var hoveron = function(d) {
-      // console.log('d', d, 'event', event);
+      //console.log(d);
       var div = document.getElementById('tooltip');
       div.style.left = "550px";//event.pageX + 'px';
       div.style.top = "150px";//event.pageY + 'px';
@@ -34,8 +34,14 @@ var hoveron = function(d) {
         .text(d.properties.dist);
 
       //Populate value in tooltip
-      d3.select("#tooltip .value")
-        .text("" + " " + valueFormat(d.properties.dataRowKey) ); 
+      d3.select("#tooltip .received_station")
+        .text("Received stations: " + valueFormat(d.properties.dataRowKey.received_station) +"/"+ valueFormat(d.properties.dataRowKey.received_station_total)); 
+
+      d3.select("#tooltip .reg_voters")
+      .text("Registered voters: " + valueFormat(d.properties.dataRowKey.reg_voters)); 
+
+      d3.select("#tooltip .total_votes")
+        .text("Voter turnout: " + valueFormat(d.properties.dataRowKey.total_votes) +"/"+ valueFormat(d.properties.dataRowKey.total_votes_percent) +"%"); 
 }
 
 var hoverout = function(d) {
@@ -97,7 +103,7 @@ var color = d3.scale.quantize()
 
 
 // Load in coverage score data
-d3.csv("./assets/data/data-excel-prepared.csv", function(data) {
+d3.csv("./assets/data/data-excel-turnout.csv", function(data) {
 
   //Set input domain for color scale
   color.domain([
@@ -132,7 +138,7 @@ d3.csv("./assets/data/data-excel-prepared.csv", function(data) {
     for (var i=0; i < data.length ; i++ ) {
 
       // Grab district name
-      var dataDistrict = data[i].district_name;
+      var dataDistrict = data[i].district;
 
       //Grab data value, and convert from string to float
       var dataValue = data[i];
